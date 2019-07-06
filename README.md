@@ -8,7 +8,7 @@
 
 # Endpoints
 
-## /api/auth/register
+## POST: /api/auth/register
 
 If no company_id is supplied, the API will assume that you're a new user, thus setting your account_type to 0 (unassigned). If a company_id is passed, the API will assume that youre a user being created for a company, and set your account_type to 1 (assigned). The third account_type, 2 (admin) is only assigned when creating a new company, or being assigned by a current company admin
 
@@ -26,9 +26,29 @@ If no company_id is supplied, the API will assume that you're a new user, thus s
 3. department_id
 4. company_id
 
-## /api/auth/login
+## POST: /api/auth/login
 
 requires a username an a password, checks for pass word correctness, and sends back the users information, and JWT token, and all of assosciated company information. This uncludes an array of team mates, their departments, their managers, and an array of all departments, with the department heads information included.
+
+# all endpoints from here are protected and require a valid JWT recieved on login
+
+## GET: /api/user/:id
+
+get a specific user by ID
+
+## GET: /api/user/company/:id
+
+get all users for a company base on a company ID
+
+## PUT: /api/user/:id
+
+update a specific user by ID
+
+## DELETE: /api/user/:id
+
+update a specific user by ID
+
+# final notes
 
 ## Contributing
 
