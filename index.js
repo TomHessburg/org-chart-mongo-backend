@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const seedData = require("./seed/seeds.js");
 
 // import routes
+const authRouter = require("./routers/authRouter.js");
 
 // server instantiation and middleware
 const server = express();
@@ -15,7 +16,10 @@ server.use(cors());
 server.use(json());
 server.use(urlencoded({ extended: true }));
 server.use(morgan("dev"));
+// route hookup
+server.use("/api/auth", authRouter);
 
+// server connection
 const connect = () => {
   return mongoose.connect("mongodb://localhost:27017/org-chart", {
     useNewUrlParser: true
