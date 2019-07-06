@@ -3,12 +3,14 @@ const morgan = require("morgan");
 const cors = require("cors");
 const { json, urlencoded } = require("body-parser");
 const mongoose = require("mongoose");
+const { authenticate } = require("./auth/tokenHandlers.js");
 
 // seed file
 const seedData = require("./seed/seeds.js");
 
 // import routes
 const authRouter = require("./routers/authRouter.js");
+const userRouter = require("./routers/userRouter.js");
 
 // server instantiation and middleware
 const server = express();
@@ -18,6 +20,7 @@ server.use(urlencoded({ extended: true }));
 server.use(morgan("dev"));
 // route hookup
 server.use("/api/auth", authRouter);
+server.use("/api/users", authenticate, userRouter);
 
 // server connection
 const connect = () => {
