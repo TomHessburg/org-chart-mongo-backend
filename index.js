@@ -4,6 +4,9 @@ const cors = require("cors");
 const { json, urlencoded } = require("body-parser");
 const mongoose = require("mongoose");
 
+// seed file
+const seedData = require("./seed/seeds.js");
+
 // import routes
 
 // server instantiation and middleware
@@ -23,6 +26,8 @@ const port = process.env.PORT || 5000;
 connect()
   .then(conn => {
     server.listen(port, () => {
+      // edit the seed data in seeds.js and run this function to see some preliminary data
+      // seedData();
       console.log(`Server listning on port: ${port}`);
     });
   })
