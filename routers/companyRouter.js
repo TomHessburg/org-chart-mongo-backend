@@ -131,5 +131,58 @@ router.delete("/:id", async (req, res) => {
     });
   }
 });
+// _______
+// _______
+// _______
+// _______
+// _______
+// this is just a practice endpoint for implementing a
+// basic redis cache for a single endpoint. Obviously a bit
+// basic, but just to get the hang of it.
+
+// get company by id
+router.get("/redispractice/:id", async (req, res) => {
+  // connects to our redis instance
+  const redis = require("redis");
+  const redisUrl = "redis://127.0.0.1:6379";
+  const client = redis.createClient(redisUrl);
+  // util gives us promisify, promisifies redisClient.get
+  // so that we dont have to pass it a cb.
+  const util = require("util");
+  client.get = util.promisify(client.get);
+
+  try {
+    // DO WE HAVE ANY CACHED DATA IN REDIS RELATED TO THIS QUERY?
+
+    // can await because this is promisified
+    const cachedCompany = await client.get(req.params.id);
+
+    //IF YES, RETURN IT
+    if (cachedCompany) {
+      console.log("SERVING FROM CACHE!");
+      return res.status(200).json(JSON.parse(cachedCompany));
+    }
+
+    // ELSE, CONTINUE AND UPDATE OUT CACH TO STORE OUR DATA
+    const company = await Company.findById(req.params.id).exec();
+
+    if (company) {
+      console.log("SERVING FROM MONGO!");
+      res.status(200).json(company);
+
+      // if we get this far, company wasnt in our cache, thus we
+      // must add it.
+      client.set(req.params.id, JSON.stringify(company));
+    } else {
+      res.status(404).json({
+        message: "Sorry, we couldnt find that company."
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Error connection to the server."
+    });
+  }
+});
 
 module.exports = router;
