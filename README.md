@@ -10,7 +10,7 @@
 
 ## POST: /api/auth/register
 
-If no company_id is supplied, the API will assume that you're a new user, thus setting your account_type to 0 (unassigned). If a company_id is passed, the API will assume that youre a user being created for a company, and set your account_type to 1 (assigned). The third account_type, 2 (admin) is only assigned when creating a new company, or being assigned by a current company admin
+> If no company_id is supplied, the API will assume that you're a new user, thus setting your account_type to 0 (unassigned). If a company_id is passed, the API will assume that youre a user being created for a company, and set your account_type to 1 (assigned). The third account_type, 2 (admin) is only assigned when creating a new company, or being assigned by a current company admin
 
 ### Required fields:
 
@@ -28,25 +28,53 @@ If no company_id is supplied, the API will assume that you're a new user, thus s
 
 ## POST: /api/auth/login
 
-requires a username an a password, checks for pass word correctness, and sends back the users information, and JWT token, and all of assosciated company information. This uncludes an array of team mates, their departments, their managers, and an array of all departments, with the department heads information included.
+> requires a username an a password, checks for pass word correctness, and sends back the users information, and JWT token, and all of assosciated company information. This uncludes an array of team mates, their departments, their managers, and an array of all departments, with the department heads information included.
 
-# all endpoints from here are protected and require a valid JWT recieved on login
+### all endpoints from here are protected and require a valid JWT recieved on login
+
+# users
 
 ## GET: /api/user/:id
 
-get a specific user by ID
+> get a specific user by ID
 
 ## GET: /api/user/company/:id
 
-get all users for a company base on a company ID
+> get all users for a company base on a company ID
 
 ## PUT: /api/user/:id
 
-update a specific user by ID
+> update a specific user by ID
 
 ## DELETE: /api/user/:id
 
-update a specific user by ID
+> update a specific user by ID
+
+# departments
+
+## GET: /api/departments/:id
+
+> get a specific department with the info on the head user
+
+## GET: /api/departments/company/:id
+
+> get a specific companies departments and their heads
+
+## PUT: /api/departments/:id
+
+> update a department. If the update includes the head of a department, the user who has become the head of the department will be updated to to have their department_id === updated departments id
+
+## DELETE: /api/departments/:id
+
+> Delete a department and updates all users who were a part of that department to have a department_id of null
+
+## POST: /api/departments/
+
+> Add a new department. Must include a department_head ID. The user set to become the department head will automatically be updated to have a department_id = to the new department
+
+# Companies
+
+# Requests
 
 # final notes
 

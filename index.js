@@ -11,6 +11,7 @@ const seedData = require("./seed/seeds.js");
 // import routes
 const authRouter = require("./routers/authRouter.js");
 const userRouter = require("./routers/userRouter.js");
+const departmentRouter = require("./routers/departmentRouter.js");
 
 // server instantiation and middleware
 const server = express();
@@ -21,6 +22,7 @@ server.use(morgan("dev"));
 // route hookup
 server.use("/api/auth", authRouter);
 server.use("/api/users", authenticate, userRouter);
+server.use("/api/departments", authenticate, departmentRouter);
 
 // server connection
 const connect = () => {
