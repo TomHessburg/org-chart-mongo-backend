@@ -74,6 +74,26 @@
 
 # Companies
 
+## GET: /api/companies/
+
+> Returns all companies
+
+## GET: /api/companies/:id
+
+> Returns a specific company
+
+## POST: /api/companies/
+
+> Creates a new company. Must include the id of the user creating the company as 'user_id', this user will be assigned as the manager of this company.
+
+## PUT: /api/companies/:id
+
+> Update a company by id.
+
+## DELETE: /api/companies/:id
+
+> Deletes a company by ID, and removes/initializes all users.
+
 # Requests
 
 # final notes

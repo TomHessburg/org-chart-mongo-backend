@@ -12,6 +12,7 @@ const seedData = require("./seed/seeds.js");
 const authRouter = require("./routers/authRouter.js");
 const userRouter = require("./routers/userRouter.js");
 const departmentRouter = require("./routers/departmentRouter.js");
+const companyRouter = require("./routers/companyRouter.js");
 
 // server instantiation and middleware
 const server = express();
@@ -23,6 +24,7 @@ server.use(morgan("dev"));
 server.use("/api/auth", authRouter);
 server.use("/api/users", authenticate, userRouter);
 server.use("/api/departments", authenticate, departmentRouter);
+server.use("/api/companies", authenticate, companyRouter);
 
 // server connection
 const connect = () => {
