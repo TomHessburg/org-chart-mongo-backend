@@ -96,7 +96,35 @@
 
 # Requests
 
-# final notes
+## GET: /api/requests/:id
+
+> Get a specific request by id
+
+## GET: /api/requests/recipient/:id
+
+> Get all requests by recipient id
+
+## GET: /api/requests/sender/:id
+
+> Get all requests by sender id
+
+## POST: /api/requests
+
+> Post a new request
+
+## PUT: /api/requests/:id
+
+> Update a new request by request ID
+
+## delete: /api/requests/:id
+
+> Delete a request by ID
+
+---
+
+---
+
+---
 
 ## Contributing
 
