@@ -2,6 +2,8 @@
 
 > Spent the last few days teaching myself MongoDB! Wanted to give myself the opportunity to build something with it, so I decided to take a project which I was a Team Lead on for Lambda School build weeks and create a new backend for it with Node, Express, and MongoDB!
 
+Using this branch to learn how to set up Redis Caching with Mongo. I've worked with this a bit once in the past, but never set it up from scratch.
+
 ## DB Diagram
 
 <img src="./dbdiagramimg/Screen Shot 2019-07-06 at 3.26.39 PM.png">
