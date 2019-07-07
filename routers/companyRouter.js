@@ -60,7 +60,13 @@ router.post("/", async (req, res) => {
         }
       );
 
-      res.status(201).json(newCompany);
+      if (newCompany) {
+        res.status(201).json(newCompany);
+      } else {
+        res.status(404).json({
+          message: "Unable to create this company."
+        });
+      }
     } else {
       res.status(404).json({
         message:
@@ -86,7 +92,13 @@ router.put("/:id", async (req, res) => {
       }
     );
 
-    res.status(201).json(newCompany);
+    if (newCompany) {
+      res.status(201).json(newCompany);
+    } else {
+      res.status(404).json({
+        message: "Unable to update this company."
+      });
+    }
   } catch (err) {
     res.status(500).json({
       message: "Error connection to the server."

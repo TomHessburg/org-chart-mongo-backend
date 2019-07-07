@@ -6,7 +6,13 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id).exec();
 
-    res.status(200).json(user);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({
+        message: "Sorry, we couldnt find that user."
+      });
+    }
   } catch (e) {
     res
       .status(500)
@@ -17,9 +23,15 @@ router.get("/:id", async (req, res) => {
 // get all users in a company
 router.get("/company/:id", async (req, res) => {
   try {
-    const user = await User.find({ company_id: req.params.id }).exec();
+    const users = await User.find({ company_id: req.params.id }).exec();
 
-    res.status(200).json(user);
+    if (users) {
+      res.status(200).json(users);
+    } else {
+      res.status(404).json({
+        message: "Sorry, we couldnt find those users."
+      });
+    }
   } catch (e) {
     res
       .status(500)
@@ -35,7 +47,13 @@ router.put("/:id", async (req, res) => {
       useFindAndModify: false
     }).exec();
 
-    res.status(201).json(user);
+    if (user) {
+      res.status(201).json(user);
+    } else {
+      res.status(404).json({
+        message: "Sorry, we couldnt find that user."
+      });
+    }
   } catch (e) {
     res
       .status(500)

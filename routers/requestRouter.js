@@ -2,9 +2,9 @@ const router = require("express").Router();
 const Request = require("../schema/requestSchema.js");
 
 // get single message
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const message = Request.findById(req.params.id)
+    const message = await Request.findById(req.params.id)
       .populate("sender_id")
       .populate("recipient_id")
       .exec();
@@ -22,9 +22,11 @@ router.get("/:id", (req, res) => {
 });
 
 // get all recipient messages
-router.get("/recipient/:recipientid", (req, res) => {
+router.get("/recipient/:recipientid", async (req, res) => {
   try {
-    const messages = Request.find({ recipient_id: req.params.recipientid })
+    const messages = await Request.find({
+      recipient_id: req.params.recipientid
+    })
       .populate("sender_id")
       .populate("recipient_id")
       .exec();
@@ -42,9 +44,9 @@ router.get("/recipient/:recipientid", (req, res) => {
 });
 
 // get all sender messages
-router.get("/sender/:senderid", (req, res) => {
+router.get("/sender/:senderid", async (req, res) => {
   try {
-    const messages = Request.find({ sender_id: req.params.senderid })
+    const messages = await Request.find({ sender_id: req.params.senderid })
       .populate("sender_id")
       .populate("recipient_id")
       .exec();
@@ -62,9 +64,9 @@ router.get("/sender/:senderid", (req, res) => {
 });
 
 // add a message
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const newMessage = Request.create(req.body);
+    const newMessage = await Request.create(req.body);
 
     res.status(201).json(newMessage);
   } catch (err) {
@@ -73,13 +75,18 @@ router.post("/", (req, res) => {
       .json({ message: "Sorry, there was an error with the server." });
   }
 });
+
 // update a message
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
-    const newMessage = Request.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      useFindAndModify: false
-    });
+    const newMessage = await Request.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        useFindAndModify: false
+      }
+    );
 
     res.status(201).json(newMessage);
   } catch (err) {
@@ -90,9 +97,11 @@ router.put("/:id", (req, res) => {
 });
 
 // delete a message
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    const deletedMessage = Request.findByIdAndDelete(req.params.id).exec();
+    const deletedMessage = await Request.findByIdAndDelete(
+      req.params.id
+    ).exec();
 
     res.status(201).json({ message: "Deleted message" });
   } catch (err) {

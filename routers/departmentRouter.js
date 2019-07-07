@@ -9,7 +9,13 @@ router.get("/:id", async (req, res) => {
       .populate("department_head")
       .exec();
 
-    res.status(200).json(department);
+    if (department) {
+      res.status(200).json(department);
+    } else {
+      res.status(404).json({
+        message: "Unable to find this department"
+      });
+    }
   } catch (err) {
     res.status(500).json({ message: "Sorry, there was a server error." });
   }
@@ -22,7 +28,13 @@ router.get("/company/:id", async (req, res) => {
       .populate("department_head")
       .exec();
 
-    res.status(200).json(departments);
+    if (departments) {
+      res.status(200).json(departments);
+    } else {
+      res.status(404).json({
+        message: "Unable to find departments for this company."
+      });
+    }
   } catch (err) {
     res.status(500).json({ message: "Sorry, there was a server error." });
   }
@@ -51,7 +63,13 @@ router.put("/:id", async (req, res) => {
       );
     }
 
-    res.status(200).json(department);
+    if (department) {
+      res.status(200).json(department);
+    } else {
+      res.status(404).json({
+        message: "Unable to update this department."
+      });
+    }
   } catch (err) {
     res.status(500).json({ message: "Sorry, there was a server error." });
   }
@@ -94,7 +112,13 @@ router.post("/", async (req, res) => {
       { new: true, useFindAndModify: false }
     );
 
-    res.status(201).json(department);
+    if (department) {
+      res.status(201).json(department);
+    } else {
+      res.status(404).json({
+        message: "Unable to create this department."
+      });
+    }
   } catch (e) {
     res.status(500).json({ message: "Sorry, there was a server error." });
   }
