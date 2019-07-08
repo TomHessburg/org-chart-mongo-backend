@@ -1,13 +1,17 @@
 const router = require("express").Router();
 const Department = require("../schema/departmentSchema.js");
 const User = require("../schema/userSchema.js");
+const cleanCache = require("../services/cleanCache.js");
+const { clearCache } = require("../services/cache.js");
 
 // get a single department by id
 router.get("/:id", async (req, res) => {
   try {
     const department = await Department.findById(req.params.id)
       .populate("department_head")
-      .exec();
+      .cache({
+        key: req.params.id
+      });
 
     if (department) {
       res.status(200).json(department);
@@ -26,7 +30,9 @@ router.get("/company/:id", async (req, res) => {
   try {
     const departments = await Department.find({ company_id: req.params.id })
       .populate("department_head")
-      .exec();
+      .cache({
+        key: req.params.id
+      });
 
     if (departments) {
       res.status(200).json(departments);
@@ -41,7 +47,7 @@ router.get("/company/:id", async (req, res) => {
 });
 
 // edit a department by id
-router.put("/:id", async (req, res) => {
+router.put("/:id", cleanCache, async (req, res) => {
   try {
     const department = await Department.findOneAndUpdate(
       req.params.id,
@@ -76,7 +82,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete a department by id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", cleanCache, async (req, res) => {
   try {
     // deletes department
     const department = await Department.findByIdAndDelete(req.params.id).exec();
@@ -114,6 +120,7 @@ router.post("/", async (req, res) => {
 
     if (department) {
       res.status(201).json(department);
+      clearCache(req.body.department_head);
     } else {
       res.status(404).json({
         message: "Unable to create this department."

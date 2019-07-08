@@ -5,6 +5,9 @@ const { json, urlencoded } = require("body-parser");
 const mongoose = require("mongoose");
 const { authenticate } = require("./auth/tokenHandlers.js");
 
+// caching service
+require("./services/cache.js");
+
 // seed file
 const seedData = require("./seed/seeds.js");
 
