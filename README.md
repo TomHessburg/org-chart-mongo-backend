@@ -1,6 +1,6 @@
 # org-shart-mongo-backend
 
-> Spent the last few days teaching myself MongoDB! Wanted to give myself the opportunity to build something with it, so I decided to take a project which I was a Team Lead on for Lambda School build weeks and create a new backend for it with Node, Express, and MongoDB!
+> Spent the last several days teaching myself MongoDB and Redis Caching! Wanted to give myself the opportunity to build something with it, so I decided to take a project which I had been a Team Lead on (for Lambda School build weeks) and create a new backend for it with Node, Express, Redis, and MongoDB!
 
 ## DB Diagram
 

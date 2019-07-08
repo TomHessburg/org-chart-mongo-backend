@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Request = require("../schema/requestSchema.js");
+const cleanCache = require("../services/cleanCache.js");
+const { clearCache } = require("../services/cache.js");
 
 // get single message
 router.get("/:id", async (req, res) => {
@@ -7,7 +9,9 @@ router.get("/:id", async (req, res) => {
     const message = await Request.findById(req.params.id)
       .populate("sender_id")
       .populate("recipient_id")
-      .exec();
+      .cache({
+        key: req.params.id
+      });
 
     if (message) {
       res.status(200).json(message);
@@ -29,7 +33,9 @@ router.get("/recipient/:recipientid", async (req, res) => {
     })
       .populate("sender_id")
       .populate("recipient_id")
-      .exec();
+      .cache({
+        key: req.params.recipientid
+      });
 
     if (messages) {
       res.status(200).json(messages);
@@ -49,7 +55,9 @@ router.get("/sender/:senderid", async (req, res) => {
     const messages = await Request.find({ sender_id: req.params.senderid })
       .populate("sender_id")
       .populate("recipient_id")
-      .exec();
+      .cache({
+        key: req.params.senderid
+      });
 
     if (messages) {
       res.status(200).json(messages);
@@ -69,6 +77,8 @@ router.post("/", async (req, res) => {
     const newMessage = await Request.create(req.body);
 
     res.status(201).json(newMessage);
+    clearCache(req.body.sender_id);
+    clearCache(req.body.recipient_id);
   } catch (err) {
     res
       .status(500)
@@ -77,7 +87,7 @@ router.post("/", async (req, res) => {
 });
 
 // update a message
-router.put("/:id", async (req, res) => {
+router.put("/:id", cleanCache, async (req, res) => {
   try {
     const newMessage = await Request.findByIdAndUpdate(
       req.params.id,
@@ -97,7 +107,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete a message
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", cleanCache, async (req, res) => {
   try {
     const deletedMessage = await Request.findByIdAndDelete(
       req.params.id

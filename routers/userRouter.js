@@ -1,10 +1,15 @@
 const router = require("express").Router();
 const User = require("../schema/userSchema.js");
+const cleanCache = require("../services/cleanCache.js");
 
 // get single user by ID
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).exec();
+    const user = await User.findById(req.params.id)
+      .cache({
+        key: req.params.id
+      })
+      .exec();
 
     if (user) {
       res.status(200).json(user);
@@ -23,7 +28,11 @@ router.get("/:id", async (req, res) => {
 // get all users in a company
 router.get("/company/:id", async (req, res) => {
   try {
-    const users = await User.find({ company_id: req.params.id }).exec();
+    const users = await User.find({ company_id: req.params.id })
+      .cache({
+        key: req.params.id
+      })
+      .exec();
 
     if (users) {
       res.status(200).json(users);
@@ -40,7 +49,7 @@ router.get("/company/:id", async (req, res) => {
 });
 
 // update a user by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id", cleanCache, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -62,7 +71,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete a user by id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", cleanCache, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id).exec();
 
