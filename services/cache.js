@@ -62,7 +62,8 @@ mongoose.Query.prototype.exec = async function() {
   // not sure if its a difference between hset and set, but its
   // 2 am on a sunday as im writing this so ill probably just leave
   // this be for the time being hahaha
-  client.hset(this.hashKey, key, JSON.stringify(result), "EX", 60);
+  client.hset(this.hashKey, key, JSON.stringify(result));
+  client.expire(this.hashKey, 1200);
   console.log("returning from mongo");
   return result;
 };

@@ -1,0 +1,19 @@
+{
+  "name": "gqlserver",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon"
+  },
+  "dependencies": {
+    "apollo-server": "^2.6.9",
+    "express": "^4.17.1",
+    "graphql": "^14.4.2",
+    "lodash": "^4.17.14"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
